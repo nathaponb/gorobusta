@@ -48,7 +48,7 @@ func (app *Config) login(c *gin.Context) {
 	}
 
 	// everything is fine
-	c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+	c.AbortWithStatusJSON(http.StatusAccepted, gin.H{
 		"error":   false,
 		"message": "gotcha bro",
 		"data":    nil,
