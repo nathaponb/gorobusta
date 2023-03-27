@@ -11,6 +11,12 @@ type User struct {
 	Password    string `json:"password,omitempty" gorm:"column:password" binding:"required"`
 }
 
+// by default gorm plurallizes table name from struct model name
+// to override it, create a method called tableName returns string.
+func (User) TableName() string {
+	return "test_user"
+}
+
 type PostgresRepository struct {
 	Conn *gorm.DB
 }

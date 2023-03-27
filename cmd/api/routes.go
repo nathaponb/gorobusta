@@ -17,7 +17,8 @@ func (app *Config) routes() http.Handler {
 		})
 	})
 
-	ngin.POST("/login", app.authenticate)
+	ngin.POST("/login", app.login)
+	ngin.POST("/register", app.register)
 
 	return ngin
 }
