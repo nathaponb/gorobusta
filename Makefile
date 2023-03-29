@@ -2,4 +2,4 @@ start:
 	go run ./cmd/apisrv
 
 test:
-	go test -v ./internal/server
+	go test -v ./internal/server ./pkg//utils
