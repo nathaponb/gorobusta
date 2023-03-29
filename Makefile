@@ -1,5 +1,5 @@
 start:
-	go run ./cmd/api
+	go run ./cmd/apisrv
 
 test:
-	go test -v ./cmd/api
+	go test -v ./internal/server

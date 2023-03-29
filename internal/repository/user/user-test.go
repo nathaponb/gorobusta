@@ -1,4 +1,4 @@
-package data
+package user
 
 import "gorm.io/gorm"
 

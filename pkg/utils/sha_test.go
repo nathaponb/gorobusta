@@ -1,12 +1,10 @@
-package main
+package utils
 
 import (
 	"testing"
 )
 
 func TestHasher(t *testing.T) {
-
-	testApp := Config{}
 
 	var table = []struct {
 		s    string
@@ -19,7 +17,7 @@ func TestHasher(t *testing.T) {
 
 	for _, row := range table {
 
-		hashed := testApp.hasher(row.s)
+		hashed := Sha256Hasher(row.s)
 
 		if row.want != hashed {
 			t.Errorf("hashed unmatchs from want field of %s", row.s)

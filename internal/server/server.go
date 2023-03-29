@@ -47,8 +47,7 @@ func NewServer() (*Config, error) {
 	return &app, nil
 }
 
-func (app *Config) start() {
-
+func (app *Config) Start() {
 	// start http server
 	app.Server.ListenAndServe()
 }

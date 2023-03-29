@@ -1,10 +1,11 @@
-package main
+package server
 
 import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/nathaponb/robusta-gosrv/data"
+	"github.com/nathaponb/robusta-gosrv/internal/repository/user"
+	"github.com/nathaponb/robusta-gosrv/pkg/utils"
 )
 
 type RequestAuthPayload struct {
@@ -26,7 +27,7 @@ func (app *Config) login(c *gin.Context) {
 	}
 
 	// retrieve db user
-	user, err := app.Repo.GetByUsername(req.Username)
+	user, err := app.UserRepo.GetByUsername(req.Username)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   true,
@@ -37,7 +38,7 @@ func (app *Config) login(c *gin.Context) {
 	}
 
 	// compare hash
-	hashed := app.hasher(req.Password)
+	hashed := utils.Sha256Hasher(req.Password)
 	if hashed != user.Password {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   true,
@@ -59,7 +60,7 @@ func (app *Config) login(c *gin.Context) {
 func (app *Config) register(c *gin.Context) {
 
 	// unmarshal json payload
-	var req data.User
+	var req user.User
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error":   true,
@@ -70,11 +71,11 @@ func (app *Config) register(c *gin.Context) {
 	}
 
 	// hash password before do db transaction
-	hashed := app.hasher(req.Password)
+	hashed := utils.Sha256Hasher(req.Password)
 	req.Password = hashed
 
 	// save to db
-	err := app.Repo.Register(&req)
+	err := app.UserRepo.Register(&req)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"error":   true,
